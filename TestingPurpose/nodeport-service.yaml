@@ -1,0 +1,20 @@
+# nodeport-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80          # Service port (used inside the cluster)
+      targetPort: 80    # Pod port
+      nodePort: 30007   # External port exposed via cluster.yml
+  type: NodePort
+
+
+# NodePort Service to expose the Pod to the outside world
+# This YAML file defines a Service that exposes the nginx Pod to the outside world on port 30007
+# The Service will route traffic to the Pod on port 80
+# This is a NodePort Service, which means it will be accessible on the host's IP address at port 30007 like http://localhost:30007

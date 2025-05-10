@@ -1,0 +1,14 @@
+# nginx-pod.yaml
+apiVersion: v1              # API version for core K8s objects like Pod
+kind: Pod                   # We're defining a Pod here
+metadata:
+  name: nginx               # Name of the Pod
+  labels:
+    app: nginx              # Labels help to identify/select this Pod in a Service
+spec:
+  containers:
+    - name: nginx           # Name of the container inside the Pod
+      image: nginx          # Docker image to use
+      ports:                # Ports the container exposes
+        - containerPort: 80     # HTTP traffic
+        - containerPort: 443    # HTTPS traffic
