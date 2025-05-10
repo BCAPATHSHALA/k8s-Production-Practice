@@ -1,0 +1,76 @@
+# nginx-full-setup.yaml
+# --------------------------
+# Deployment: nginx (3 replicas)
+# --------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3  # Creates 3 Pods
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx  # Used by services to target Pods
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+
+---
+
+# --------------------------
+# ClusterIP Service (Internal communication only)
+# --------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-clusterip
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+# --------------------------
+# NodePort Service (Accessible from localhost:30007)
+# --------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-nodeport
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30007  # Must match your kind cluster port
+  type: NodePort
+
+---
+
+# --------------------------
+# LoadBalancer Service (Works in cloud, or simulate with MetalLB in kind)
+# --------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-loadbalancer
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer

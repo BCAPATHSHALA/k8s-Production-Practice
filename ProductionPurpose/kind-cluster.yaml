@@ -1,0 +1,10 @@
+# kind-cluster.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30007   # This is the port inside the container
+        hostPort: 30007        # This is the port exposed on your localhost
+  - role: worker
+  - role: worker
