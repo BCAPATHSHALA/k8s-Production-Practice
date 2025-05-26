@@ -1,0 +1,29 @@
+# deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecom-backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecom-backend
+  template:
+    metadata:
+      labels:
+        app: ecom-backend
+    spec:
+      containers:
+        - name: todo-backend
+          image: 100xdevs/todo-app-test:1
+          ports:
+            - containerPort: 8000
+          volumeMounts: # Mounting the secret as a volume inside the container
+            - name: env-file
+              mountPath: "/app/secret" # Mount path inside the container as the secret will be available here
+              readOnly: true
+      volumes:
+        - name: env-file
+          secret:
+            secretName: backend-secret
