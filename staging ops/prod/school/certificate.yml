@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: school-cert
+  namespace: default
+spec:
+  secretName: school-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: school.100xdevs.com
+  dnsNames:
+  - school.100xdevs.com

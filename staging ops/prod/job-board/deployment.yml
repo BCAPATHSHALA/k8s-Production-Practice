@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job-board
+  labels:
+    app: job-board
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: job-board
+  template:
+    metadata:
+      labels:
+        app: job-board
+    spec:
+      containers:
+        - name: job-board
+          image: 100xdevs/job-board:69f6d49ca01603b74a60a2e38f040c982f3c954a
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: secret
+              mountPath: /usr/src/app/.env
+              subPath: .env
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: secret
+          secret:
+            secretName: job-board-secret
+            items:
+              - key: .env
+                path: .env

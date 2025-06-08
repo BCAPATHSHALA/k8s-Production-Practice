@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: school
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: school
+  template:
+    metadata:
+      labels:
+        app: school
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: school
+        image: 100xdevs/school:cf09685e11d7f232fccd8c7e13e4cc20c4fffdfd
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_URL
+          value: "postgres://ps_user:SecurePassword@school-postgres.default.svc.cluster.local:5432/ps_db"
+        volumeMounts:
+        - name: secret
+          mountPath: /app/.env
+          subPath: .env
+      volumes:
+      - name: secret
+        secret:
+          secretName: school-secrets
+          items:
+          - key: .env
+            path: .env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: school
+  namespace: default
+spec:
+  selector:
+    app: school
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: ClusterIP

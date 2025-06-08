@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: { { include "my-postgres.fullname" . } }
+  namespace: { { .Values.namespace } }
+spec:
+  selector:
+    app: { { include "my-postgres.name" . } }
+  ports:
+    - port: 5432
+      targetPort: 5432

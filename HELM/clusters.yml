@@ -1,0 +1,12 @@
+# clusters.yml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+
+# This file is used to define the configuration for a Kubernetes cluster using Kind (Kubernetes in Docker).
+# It specifies the kind of cluster, the API version, and the roles of the nodes in the cluster.
+# The cluster consists of one control-plane node and two worker nodes.
+# To create the cluster, you can use the command: kind create cluster --config clusters.yml --name local-helm-cluster

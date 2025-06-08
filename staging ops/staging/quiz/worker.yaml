@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: quiz-worker
+  template:
+    metadata:
+      labels:
+        app: quiz-worker
+    spec:
+      containers:
+      - name: quiz-worker
+        image: 100xdevs/project-platform-worker:8252f99d898a96a294eff33d94c490ef1deb499c
+        env:
+          - name: REDIS_HOST
+            value: "redis://redis.default.svc.cluster.local:6379"
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: database-secret
+                key: DATABASE_URL
+        volumeMounts:
+          - name: secret
+            mountPath: /app/.env
+            subPath: .env
+      volumes:
+        - name: secret
+          secret:
+            secretName: backend-secrets
+            items:
+              - key: .env
+                path: .env
