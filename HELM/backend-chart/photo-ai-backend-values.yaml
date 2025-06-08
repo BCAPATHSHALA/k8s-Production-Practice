@@ -1,0 +1,16 @@
+app:
+  name: photo-ai
+
+replicaCount: 2
+
+image:
+  repository: myrepo/photo-ai-backend
+  tag: v1
+
+containerPort: 3000
+
+resources:
+  requests:
+    cpu: "100m"
+  limits:
+    cpu: "500m"

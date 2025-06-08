@@ -1,0 +1,16 @@
+app:
+  name: probo
+
+replicaCount: 3
+
+image:
+  repository: myrepo/probo-backend
+  tag: v2
+
+containerPort: 4000
+
+resources:
+  requests:
+    cpu: "200m"
+  limits:
+    cpu: "800m"

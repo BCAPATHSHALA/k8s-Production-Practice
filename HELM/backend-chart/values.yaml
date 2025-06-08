@@ -1,0 +1,16 @@
+app:
+  name: default-backend
+
+replicaCount: 1
+
+image:
+  repository: myrepo/default-backend
+  tag: latest
+
+containerPort: 3000
+
+resources:
+  requests:
+    cpu: "100m"
+  limits:
+    cpu: "500m"

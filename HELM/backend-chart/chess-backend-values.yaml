@@ -1,0 +1,16 @@
+app:
+  name: chess
+
+replicaCount: 1
+
+image:
+  repository: myrepo/chess-backend
+  tag: stable
+
+containerPort: 5000
+
+resources:
+  requests:
+    cpu: "150m"
+  limits:
+    cpu: "700m"
